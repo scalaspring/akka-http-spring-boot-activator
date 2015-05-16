@@ -1,8 +1,6 @@
 package sample.random
 
-import sample.util
-
-import scala.util.Random
+import sample.util._
 
 
 case class Credentials(username: String, password: String)
@@ -25,55 +23,44 @@ case class User(
 object User {
 
   // See: https://signup.weightwatchers.com/util/sig/healthy_weight_ranges_pop.aspx
-  val weightRanges = Map[Int, (Int, Int)](
-    56 ->(89, 112),
-    57 ->(92, 116),
-    58 ->(96, 120),
-    59 ->(99, 124),
-    60 ->(102, 128),
-    61 ->(106, 132),
-    62 ->(109, 137),
-    63 ->(113, 141),
-    64 ->(117, 146),
-    65 ->(120, 150),
-    66 ->(124, 155),
-    67 ->(128, 160),
-    68 ->(132, 164),
-    69 ->(135, 169),
-    70 ->(139, 174),
-    71 ->(143, 179),
-    72 ->(147, 184),
-    73 ->(152, 189),
-    74 ->(156, 195),
-    75 ->(160, 200),
-    76 ->(164, 205),
-    77 ->(169, 211),
-    78 ->(173, 216),
-    79 ->(178, 222)
+  // Inches -> Pounds
+  val weightRanges = Map[Int, Range](
+    56 -> (89 to 112),
+    57 -> (92 to 116),
+    58 -> (96 to 120),
+    59 -> (99 to 124),
+    60 -> (102 to 128),
+    61 -> (106 to 132),
+    62 -> (109 to 137),
+    63 -> (113 to 141),
+    64 -> (117 to 146),
+    65 -> (120 to 150),
+    66 -> (124 to 155),
+    67 -> (128 to 160),
+    68 -> (132 to 164),
+    69 -> (135 to 169),
+    70 -> (139 to 174),
+    71 -> (143 to 179),
+    72 -> (147 to 184),
+    73 -> (152 to 189),
+    74 -> (156 to 195),
+    75 -> (160 to 200),
+    76 -> (164 to 205),
+    77 -> (169 to 211),
+    78 -> (173 to 216),
+    79 -> (178 to 222)
   )
 
-  val domains = Seq(
-    "hotmail.com",
-    "gmail.com",
-    "yahoo.com",
-    "outlook.com"
-  )
+  val heights = weightRanges.keySet.toIndexedSeq.sorted
 
-  val (minHeight, maxHeight) = (weightRanges.keySet.min, weightRanges.keySet.max)
+  lazy val domains = readCsvResource("/random/user/domains.csv").map(_("domain"))
 
-
-  protected def randomHeight: Int = util.random(minHeight, maxHeight)
-
-  protected def randomWeight(height: Int) = weightRanges(height) match {
-    case (min, max) => util.random(min, max)
-  }
-
-  protected def randomEmail(name: Name) = s"${name.first}.${name.last}@${domains(Random.nextInt(domains.size))}".toLowerCase
+  protected def randomEmail(name: Name) = s"${name.first}.${name.last}@${domains.random}".toLowerCase
 
   def random: User = {
     val sex = Sex.random
     val name = Name.random(sex)
-    val height = randomHeight
+    val height = heights.random
     new User(
       name = name,
       credentials = Credentials(name),
@@ -81,7 +68,7 @@ object User {
       email = randomEmail(name),
       creditCard = CreditCard.random,
       height = height,
-      weight = randomWeight(height)
+      weight = weightRanges(height).random
     )
   }
 

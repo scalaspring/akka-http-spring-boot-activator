@@ -1,15 +1,24 @@
 package sample
 
+import java.io.StringReader
+
 import com.github.tototoshi.csv.CSVReader
 
 import scala.util.Random
+import resource._
 
 package object util {
 
-  def random(range: (Int, Int)): Int = (range._1 + Random.nextInt(range._2 - range._1))
+  implicit class SeqOperations[T](seq: Seq[T]) {
+    /** Selects a random element from a sequence. */
+    def random: T = seq(Random.nextInt(seq.size))
+  }
 
-  def random[T](seq: Seq[T]): T = seq(Random.nextInt(seq.size))
+  def readCsvResource(resource: String): List[Map[String, String]] =
+    managed(CSVReader.open(scala.io.Source.fromURL(getClass.getResource(resource)).bufferedReader()))
+      .map(_.allWithHeaders).opt.get
 
-  def openCsvResource(resource: String) = CSVReader.open(scala.io.Source.fromURL(getClass.getResource(resource)).bufferedReader()).iteratorWithHeaders
-
+  def parseCsvData(data: String): List[Map[String, String]] =
+    managed(CSVReader.open(new StringReader(data)))
+      .map(_.allWithHeaders).opt.get
 }
