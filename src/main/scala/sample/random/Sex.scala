@@ -1,5 +1,6 @@
 package sample.random
 
+import scala.language.implicitConversions
 import scala.util.Random
 
 

@@ -26,7 +26,7 @@ class BollingerQuoteServiceSpec extends FlatSpec with TestContextManagement with
   import BollingerQuoteServiceSpec._
 
   // Yahoo takes more than a second to respond
-  implicit val patience = PatienceConfig((10 seconds))
+  implicit val patience = PatienceConfig((10.seconds))
 
   "Bollinger quote service" should "add bollinger points to quote data" in {
     Get(s"/quote/yhoo") ~> route ~> check {

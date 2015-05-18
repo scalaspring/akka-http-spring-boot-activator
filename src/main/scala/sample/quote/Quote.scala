@@ -3,6 +3,7 @@ package sample.quote
 import java.time.LocalDate
 
 import scala.collection.mutable
+import scala.language.implicitConversions
 
 object Quote {
 

@@ -33,7 +33,7 @@ class ByteStringSourceInputStream(source: Source[ByteString, _])(implicit ec: Ex
       // Signal for more data when the current buffer is exhausted
       if (!b.hasRemaining) {
         buffer = Promise[Option[ByteBuffer]]
-        signal.success()
+        signal.success(Unit)
       }
 
       r

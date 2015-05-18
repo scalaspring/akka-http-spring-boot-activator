@@ -4,6 +4,8 @@ import java.time.LocalDate
 
 import sample.random.CreditCard.Brand
 import sample.util._
+
+import scala.language.implicitConversions
 import scala.util.Random
 
 case class CreditCard(brand: Brand, number: String, expiration: LocalDate)

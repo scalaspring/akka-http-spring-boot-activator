@@ -26,23 +26,10 @@ import scala.concurrent.duration._
 class YahooQuoteServiceSpec extends FlatSpec with TestContextManagement with AkkaStreamsAutowiredImplicits with Matchers with ScalaFutures with StrictLogging {
 
   // Yahoo takes more than a second to respond
-  implicit val patience = PatienceConfig((10 seconds))
+  implicit val patience = PatienceConfig((10.seconds))
 
   @Autowired val quoteService: QuoteService = null
 
-  // Override the real HTTP client to return test data
-  //@Bean
-//  def httpClient: HttpClient = new HttpClient {
-//    override def request(request: HttpRequest): Future[HttpResponse] = {
-//      logger.info(s"Received request $request")
-//      val symbol = request.uri.query.toMap("s").toUpperCase
-//      symbol match {
-//        case "YHOO" => Future.successful(HttpResponse(status = OK, entity = "Good symbol"))
-//        case "BAD" | "FB" => Future.successful(HttpResponse(status = NotFound))
-//        case _ => Future.successful(HttpResponse(status = BadRequest))
-//      }
-//    }
-//  }
 
   "Quote service" should "return data" in {
     val getFuture: Future[Option[Source[Quote, _]]] = quoteService.history("YHOO", Period.ofWeeks(8))
@@ -52,6 +39,7 @@ class YahooQuoteServiceSpec extends FlatSpec with TestContextManagement with Akk
 
     whenReady(future) { quotes =>
       quotes shouldBe defined
+      quotes.get.size should be > 10
       //logger.info(s"data:\n${quotes.map(_.mkString("\n"))}")
     }
   }

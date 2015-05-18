@@ -1,7 +1,7 @@
 package sample.quote.stage
 
 import akka.stream.scaladsl.{Flow, Sink, Source}
-import com.github.scalaspring.akka.http.{AkkaStreamsAutowiredImplicits, AkkaStreamsAutoConfiguration}
+import com.github.scalaspring.akka.http.{AkkaStreamsAutoConfiguration, AkkaStreamsAutowiredImplicits}
 import com.github.scalaspring.scalatest.TestContextManagement
 import com.typesafe.scalalogging.StrictLogging
 import org.scalatest.concurrent.ScalaFutures
@@ -11,6 +11,8 @@ import org.springframework.context.annotation.{Configuration, Import}
 import org.springframework.test.context.ContextConfiguration
 import sample.quote.Statistics
 import sample.quote.StatisticsSpec.Expected
+
+import scala.language.existentials
 
 @Configuration
 @ContextConfiguration(classes = Array(classOf[SlidingStatisticsSpec]))
