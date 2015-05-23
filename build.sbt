@@ -21,21 +21,29 @@ lazy val AkkaHttpSpringBootActivator = (project in file(".")).
       "com.typesafe.scala-logging" %% "scala-logging" % "3.+",
       "org.springframework" % "spring-context" % springVersion,
       "org.springframework.boot" % "spring-boot-starter" % springBootVersion,
+      "org.springframework.boot" % "spring-boot-starter-web" % springBootVersion,
+      "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
+      "io.dropwizard" % "dropwizard-core" % "0.8.1",
       "com.typesafe.akka" %% "akka-http-scala-experimental" % akkaHttpVersion,
       "com.typesafe.akka" %% "akka-http-spray-json-experimental" % akkaHttpVersion,
-      "com.github.scalaspring" %% "akka-http-spring-boot" % "0.1.0-SNAPSHOT",
+      "com.github.scalaspring" %% "akka-http-spring-boot" % "0.2.0",
       "com.github.tototoshi" %% "scala-csv" % "1.2.1",
       "com.jsuereth" %% "scala-arm" % "1.4"
     ),
     // Runtime dependencies
     libraryDependencies ++= Seq(
+      "org.springframework.boot" % "spring-boot-starter-web" % springBootVersion,
+      "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
       "ch.qos.logback" % "logback-classic" % "1.1.2"
     ).map { _ % "runtime" },
     // Test dependencies
     libraryDependencies ++= Seq(
+      "org.springframework.boot" % "spring-boot-starter-web" % springBootVersion,
+      "org.springframework.boot" % "spring-boot-starter-actuator" % springBootVersion,
       "org.scalatest" %% "scalatest" % "2.2.4",
-      "com.github.scalaspring" %% "scalatest-spring" % "0.2.1-SNAPSHOT",
+      "com.github.scalaspring" %% "scalatest-spring" % "0.2.1",
       "org.springframework" % "spring-test" % springVersion,
+      "org.springframework.boot" % "spring-boot-starter-test" % springBootVersion,
       "com.typesafe.akka" %% "akka-http-testkit-scala-experimental" % akkaHttpVersion
     ).map { _ % "test" },
     // Publishing settings
